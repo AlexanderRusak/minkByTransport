@@ -30,13 +30,20 @@ export const StationScreen = ({ navigation }) => {
     const getTimeTable = times.map((timeArr) =>
       timeArr.find((timeObj) => timeObj.way_id === +way)
     );
+/*     const timeTableArray = [
+      getTimeTable[0].trips_by_days[0]? getTimeTable[0].trips_by_days[0].days_of_week: null,
+      getTimeTable[0].trips_by_days[1]? getTimeTable[0].trips_by_days[1] : null,
+      getTimeTable[0].trips_by_days[0]? getTimeTable[0].trips_by_days[0].arrives[current]: null,
+      getTimeTable[0].trips_by_days[1]? getTimeTable[0].trips_by_days[1]: null,
+    ]; */
+    const timeTableArray = [
+      getTimeTable[0].trips_by_days[0].days_of_week,
+      getTimeTable[0].trips_by_days.length>1? getTimeTable[0].trips_by_days[1].days_of_week : null,
+      getTimeTable[0].trips_by_days[0].arrives[current],
+      getTimeTable[0].trips_by_days.length>1? getTimeTable[0].trips_by_days[1].arrives[current]: null,
+    ];
 
-    navigation.navigate("TimeTable", [
-      id,
-      current,
-      way,
-      getTimeTable,
-    ]);
+    navigation.navigate("TimeTable", [id, current, way, timeTableArray]);
   };
   return (
     <View style={styles.wrapper}>

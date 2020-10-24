@@ -7,9 +7,19 @@ import { THEME } from "../theme";
 export const TimeTableScreen = ({ navigation }) => {
   const buttons = ["Будние дни недели", "Сб", "Вс"];
 
-  const [stopId, stopIndex, wayId, table] = navigation.state.params;
-
-  console.log(wayId, "www");
+  const [stopId, stopIndex, wayId, tableArray] = navigation.state.params;
+  const [
+    weekDaysArray,
+    weekEndsArray,
+    weekDaysArrives,
+    weekEndsArrives,
+  ] = tableArray;
+  console.log(
+    weekDaysArray,
+    weekEndsArray,
+    weekDaysArrives&&weekDaysArrives.length,
+    weekEndsArrives&&weekEndsArrives.length
+  );
   return (
     <View>
       <View>
