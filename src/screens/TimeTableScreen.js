@@ -1,38 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { ButtonGroup } from "react-native-elements";
 
 import { THEME } from "../theme";
 
 export const TimeTableScreen = ({ navigation }) => {
-  const buttons = ["Будние дни недели", "Сб", "Вс"];
-
+  const buttons = ["Будние дни недели"];
+  const [index, setIndex] = useState(0);
   const [stopId, stopIndex, wayId, tableArray] = navigation.state.params;
-  const [
-    weekDaysArray,
-    weekEndsArray,
-    weekDaysArrives,
-    weekEndsArrives,
-  ] = tableArray;
-  console.log(
-    weekDaysArray,
-    weekEndsArray,
-    weekDaysArrives&&weekDaysArrives.length,
-    weekEndsArrives&&weekEndsArrives.length
-  );
+  const [weekDays, weekEnds, weekDaysArrives, weekEndsArrives] = tableArray;
+  weekEnds[1] && buttons.push("Сб");
+  weekEnds[0] && buttons.push("Вс");
+  const [timeTable, setTimeTable] = useState(weekDays);
+  console.log(weekEnds[0],weekEnds[1],weekEndsArrives.length);
+  const changeTableButtonHandler = (selectedIndex) => {
+    setIndex(selectedIndex);
+    selectedIndex != 0 ? setTimeTable(weekEnds) : setTimeTable(weekDays);
+  };
   return (
     <View>
       <View>
         <ButtonGroup
+          onPress={(selectedIndex) => changeTableButtonHandler(selectedIndex)}
           buttons={buttons}
-          selectedIndex={0}
+          selectedIndex={index}
           selectedButtonStyle={{ backgroundColor: THEME.MAIN_COLOR }}
         />
       </View>
-      <View>
-        <Text>07</Text>
-        <Text>56</Text>
-      </View>
+      <Text>{index===0?weekDaysArrives:weekEndsArrives}</Text>
     </View>
   );
 };

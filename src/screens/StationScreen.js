@@ -15,7 +15,7 @@ import { STOPS } from "../data/stops";
 
 export const StationScreen = ({ navigation }) => {
   const [stopsCount, directionId] = navigation.state.params;
-  const timeTableHandler = (id, current, way) => {
+  const timeTableHandler = async (id, current, way) => {
     const times = [
       timesFirst,
       timesSecond,
@@ -27,23 +27,24 @@ export const StationScreen = ({ navigation }) => {
       timesEight,
       timesNine,
     ];
-    const getTimeTable = times.map((timeArr) =>
+    let getTimeTable = await times.map((timeArr) =>
       timeArr.find((timeObj) => timeObj.way_id === +way)
     );
-/*     const timeTableArray = [
-      getTimeTable[0].trips_by_days[0]? getTimeTable[0].trips_by_days[0].days_of_week: null,
-      getTimeTable[0].trips_by_days[1]? getTimeTable[0].trips_by_days[1] : null,
-      getTimeTable[0].trips_by_days[0]? getTimeTable[0].trips_by_days[0].arrives[current]: null,
-      getTimeTable[0].trips_by_days[1]? getTimeTable[0].trips_by_days[1]: null,
-    ]; */
-    const timeTableArray = [
-      getTimeTable[0].trips_by_days[0].days_of_week,
-      getTimeTable[0].trips_by_days.length>1? getTimeTable[0].trips_by_days[1].days_of_week : null,
-      getTimeTable[0].trips_by_days[0].arrives[current],
-      getTimeTable[0].trips_by_days.length>1? getTimeTable[0].trips_by_days[1].arrives[current]: null,
+    const filterdTimeTable = await getTimeTable.filter(
+      (item) => item !== undefined
+    );
+    const timeTableArray = await [
+      filterdTimeTable[0].trips_by_days[0].days_of_week,
+      filterdTimeTable[0].trips_by_days.length > 1
+        ? filterdTimeTable[0].trips_by_days[1].days_of_week
+        : null,
+      filterdTimeTable[0].trips_by_days[0].arrives[current],
+      filterdTimeTable[0].trips_by_days.length > 1
+        ? filterdTimeTable[0].trips_by_days[1].arrives[current]
+        : null,
     ];
 
-    navigation.navigate("TimeTable", [id, current, way, timeTableArray]);
+    await navigation.navigate("TimeTable", [id, current, way, timeTableArray]);
   };
   return (
     <View style={styles.wrapper}>
