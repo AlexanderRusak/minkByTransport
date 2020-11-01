@@ -16,6 +16,8 @@ import { BusScreen } from "../screens/transportScreens/BusScreen";
 import { TrolleybusScreen } from "../screens/transportScreens/TrolleyBusScreen";
 import { TrainScreen } from "../screens/transportScreens/TrainScreen";
 import { BookedTransportScreen } from "../screens/transportScreens/BookedTransportScreen";
+import { SettingsScreen } from "../screens/SettingsScreen";
+import { BookScreen } from "../screens/transportScreens/BookScreen";
 
 export const iconColor = (isFocused) => {
   if (Platform.OS === "ios" && isFocused) {
@@ -80,7 +82,7 @@ const topTabNavigator = createMaterialTopTabNavigator(
     Bus: BusScreen,
     Trolleybus: TrolleybusScreen,
     Train: TrainScreen,
-    Booked: BookedTransportScreen,
+    Booked: BookScreen,
   },
   topBarConfiguration
 );
@@ -109,6 +111,19 @@ const topTabDirectionNavigator = createStackNavigator({
     navigationOptions: ({ navigation }) => headerOptions(navigation),
   },
 });
+const settingsComponent = createStackNavigator({
+  Settings: {
+    screen: SettingsScreen,
+    navigationOptions: {
+      headerTitle: "Настройки",
+      headerTitleStyle:{ 
+        fontFamily: "open-regular",
+        fontSize:25,
+        color:THEME.MAIN_COLOR,
+      }
+    },
+  },
+});
 const bottonTabNavigation = createBottomTabNavigator(
   {
     Main: {
@@ -121,8 +136,9 @@ const bottonTabNavigation = createBottomTabNavigator(
       },
     },
     Setting: {
-      screen: StationScreen,
+      screen: settingsComponent,
       navigationOptions: {
+        tabBarLabel: "Настройки",
         tabBarIcon: ({ focused }) => (
           <MaterialIcons name="settings" size={25} color={iconColor(focused)} />
         ),

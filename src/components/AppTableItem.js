@@ -13,6 +13,9 @@ export const AppTableItem = ({ table }) => {
     hour: hour,
     minutes: minutesArray.filter((minute) => Math.trunc(minute) === hour),
   }));
+  const currentMinutes = new Date().getMinutes();
+  const currentHours = new Date().getHours();
+  let isFind = false;
   return (
     <FlatList
       data={renderTable}
@@ -24,14 +27,25 @@ export const AppTableItem = ({ table }) => {
             </Text>
           </View>
           <View style={styles.minutes}>
-            {item.minutes.map((minutes) => (
-              <Text style={styles.minute}>
-                {Math.round((minutes - Math.trunc(minutes)) * 60).toString()
-                  .length == 1
-                  ? "0" + Math.round((minutes - Math.trunc(minutes)) * 60)
-                  : Math.round((minutes - Math.trunc(minutes)) * 60)}
-              </Text>
-            ))}
+            {item.minutes.map((minute) => {
+              const currentTime = currentHours * 60 + currentMinutes;
+              console.log(isFind)
+              if (!isFind) {
+                +item.hour === +currentHours &&
+                Math.round(minute * 60) >= +currentTime
+                  ? ((styles.minute = styles.nextTime), (isFind = true))
+                  : (styles.minute = styles.otherTime);
+              }
+
+              return (
+                <Text style={styles.minute}>
+                  {Math.round((minute - Math.trunc(minute)) * 60).toString()
+                    .length == 1
+                    ? "0" + Math.round((minute - Math.trunc(minute)) * 60)
+                    : Math.round((minute - Math.trunc(minute)) * 60)}
+                </Text>
+              );
+            })}
           </View>
         </View>
       )}
@@ -64,7 +78,16 @@ const styles = StyleSheet.create({
   },
   minute: {
     paddingLeft: 5,
+  },
+  nextTime: {
+    fontSize: 20,
+    color: THEME.MAIN_COLOR,
+    fontFamily: "open-bold",
+    paddingLeft: 5,
+  },
+  otherTime: {
     fontFamily: "open-regular",
     fontSize: 18,
+    paddingLeft: 5,
   },
 });

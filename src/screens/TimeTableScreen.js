@@ -6,8 +6,17 @@ import { THEME } from "../theme";
 
 export const TimeTableScreen = ({ navigation }) => {
   const buttons = ["Будние дни недели"];
-  const day = new Date().getDay();;
-  const indexDay =day!== 0 || 6 ? 0 : day == 6 ? 1 : 2;
+  const day = new Date().getDay();
+  let indexDay=null;
+  if (day === 6 || 0) {
+    if (day === 6) {
+      indexDay = 1;
+    } else {
+      indexDay = 2;
+    }
+  } else {
+    indexDay = 0;
+  }
   const [index, setIndex] = useState(indexDay);
   const [stopId, stopIndex, wayId, tableArray] = navigation.state.params;
   const [weekDays, weekEnds, weekDaysArrives, weekEndsArrives] = tableArray;
@@ -28,7 +37,7 @@ export const TimeTableScreen = ({ navigation }) => {
           selectedButtonStyle={{ backgroundColor: THEME.MAIN_COLOR }}
         />
       </View>
-      <View>
+      <View  style={styles.wrapper}>
         <AppTableItem table={index === 0 ? weekDaysArrives : weekEndsArrives} />
       </View>
     </View>
@@ -37,3 +46,8 @@ export const TimeTableScreen = ({ navigation }) => {
 TimeTableScreen.navigationOptions = {
   headerTitle: "Расписание",
 };
+const styles=StyleSheet.create({
+  wrapper: {
+    height:"90%",
+  }
+})
