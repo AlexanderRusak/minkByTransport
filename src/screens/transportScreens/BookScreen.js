@@ -96,11 +96,16 @@ export const BookScreen = ({ navigation }) => {
             renderItem={({ item, index }) => (
               <AppStationItem
                 timeTableHandler={() => {
-                  const currentStopIndex = STOPS.map((stops) =>
-                    stops.stops.findIndex((stopIndex) => stopIndex === item)
+                  const currentStopIndex = DATA.find(
+                    (arr) => arr.id === directionStationId[index]
+                  ).stops.findIndex((stopIndex) => stopIndex === item);
+                  console.log(currentStopIndex, "ddd");
+
+                  timeTableHandler(
+                    item,
+                    currentStopIndex,
+                    directionStationId[index]
                   );
-                  console.log(currentStopIndex)
-                  timeTableHandler(item, currentStopIndex, directionStationId[index]);
                 }}
                 stopName={STOPS.find((stop) => stop.id === item)}
               />
