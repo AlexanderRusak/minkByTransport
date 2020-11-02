@@ -15,7 +15,6 @@ import { THEME } from "../theme";
 import { BusScreen } from "../screens/transportScreens/BusScreen";
 import { TrolleybusScreen } from "../screens/transportScreens/TrolleyBusScreen";
 import { TrainScreen } from "../screens/transportScreens/TrainScreen";
-import { BookedTransportScreen } from "../screens/transportScreens/BookedTransportScreen";
 import { SettingsScreen } from "../screens/SettingsScreen";
 import { BookScreen } from "../screens/transportScreens/BookScreen";
 

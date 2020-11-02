@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, FlatList, View, StyleSheet } from "react-native";
 
 import { THEME } from "../theme";
@@ -15,11 +15,12 @@ export const AppTableItem = ({ table }) => {
   }));
   const currentMinutes = new Date().getMinutes();
   const currentHours = new Date().getHours();
+  let selected = null;
   let isFind = false;
   return (
     <FlatList
       data={renderTable}
-      renderItem={({ item }) => (
+      renderItem={({ item, index }) => (
         <View style={styles.wrapper}>
           <View style={styles.hours}>
             <Text style={styles.hour}>
@@ -29,13 +30,16 @@ export const AppTableItem = ({ table }) => {
           <View style={styles.minutes}>
             {item.minutes.map((minute) => {
               const currentTime = currentHours * 60 + currentMinutes;
-              console.log(isFind)
-              if (!isFind) {
-                +item.hour === +currentHours &&
-                Math.round(minute * 60) >= +currentTime
-                  ? ((styles.minute = styles.nextTime), (isFind = true))
-                  : (styles.minute = styles.otherTime);
+              styles.minute = styles.otherTime;
+
+              if (!isFind && +currentTime <= minute * 60) {
+                styles.minute = styles.nextTime;
+                selected = minute * 60;
+                isFind = true;
               }
+              if (selected === minute * 60) {
+                styles.minute = styles.nextTime;
+              } //FULL SHIT
 
               return (
                 <Text style={styles.minute}>
