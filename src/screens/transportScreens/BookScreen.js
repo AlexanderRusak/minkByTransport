@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import { iconColor } from "../../navigation/AppNavigation";
 import { THEME } from "../../theme";
@@ -17,11 +17,22 @@ import { timesSix } from "../../data/timesData/timesSix";
 import { timesSeven } from "../../data/timesData/timesSeven";
 import { timesEight } from "../../data/timesData/timesEight";
 import { timesNine } from "../../data/timesData/timesNine";
+import { useDispatch, useSelector } from "react-redux";
+import { getBookedDirections } from "../../store/actions/directions";
 
 export const BookScreen = ({ navigation }) => {
   const [index, setIndex] = useState(0);
-
-  const IdDirection = ["289954", "290677"]; //////moka
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getBookedDirections());
+  }, []);  
+  const IdDirection = useSelector(
+    (state) => state.direction.directionIdString
+  );
+/*   const IdDirection = ["289954", "290677"]; //////moka */
+  const directionBookHandler = (stops, id) => {
+    navigation.navigate("Station", [stops, id]);
+  };
 
   const stopsId = ["15709", "15856"]; //for stops
   const directionStationId = ["270432", "283079"];
@@ -58,9 +69,6 @@ export const BookScreen = ({ navigation }) => {
     await navigation.navigate("TimeTable", [id, current, way, timeTableArray]);
   };
 
-  const directionBookHandler = (stops, id) => {
-    navigation.navigate("Station", [stops, id]);
-  };
   return (
     <View style={styles.wrapper}>
       <ButtonGroup

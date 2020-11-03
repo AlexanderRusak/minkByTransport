@@ -1,10 +1,11 @@
 import { AppLoading } from "expo";
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
+
+import { Provider } from "react-redux";
 import { StyleSheet, Text, View } from "react-native";
 import { bootstrap } from "./src/bootstrap";
 import { AppNavigation } from "./src/navigation/AppNavigation";
-
+import store from "./src/store/";
 export default function App() {
   const [isReady, setIsReady] = useState(false);
   if (!isReady) {
@@ -20,7 +21,11 @@ export default function App() {
       />
     );
   }
-  return <AppNavigation />;
+  return (
+    <Provider store={store}>
+      <AppNavigation />
+    </Provider>
+  );
 }
 
 const styles = StyleSheet.create({

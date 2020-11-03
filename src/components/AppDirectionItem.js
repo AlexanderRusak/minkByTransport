@@ -1,6 +1,8 @@
 import { FontAwesome } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useDispatch } from "react-redux";
+import { setBookedDirectionId } from "../store/actions/directions";
 
 import { THEME } from "../theme";
 
@@ -11,9 +13,10 @@ export const AppDirectionItem = ({
   busNumber,
   direction,
   id,
-  stops
+  stops,
 }) => {
   const [book, setBook] = useState(false);
+  const dispatch = useDispatch();
   const transportType = (typeString) => {
     switch (typeString) {
       case "bus":
@@ -26,12 +29,12 @@ export const AppDirectionItem = ({
         return "";
     }
   };
-  const bookHandler = () => {
+  const bookHandler = (id) => {
+    dispatch(setBookedDirectionId(id));
     setBook(!book);
-    console.log(book);
   };
   return (
-    <TouchableOpacity onPress={() => direction(stops,id)}>
+    <TouchableOpacity onPress={() => direction(stops, id)}>
       <View style={styles.directionWrapper}>
         <View style={styles.sticker}>
           <Text style={styles.stickerText}>{transportType(type)}</Text>
@@ -41,7 +44,12 @@ export const AppDirectionItem = ({
           <Text style={styles.directionInfoFrom}>{from}</Text>
           <Text style={styles.directionInfoTo}>{to}</Text>
         </View>
-        <TouchableOpacity style={styles.booked} onPress={bookHandler}>
+        <TouchableOpacity
+          style={styles.booked}
+          onPress={() => {
+            bookHandler(id);
+          }}
+        >
           <FontAwesome
             style={styles.booked}
             name={!book ? "star-o" : "star"}
