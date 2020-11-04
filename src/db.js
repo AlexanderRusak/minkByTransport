@@ -39,14 +39,23 @@ export class DB {
       });
     });
   }
-  static drop() {
+  static removeDirectionId(id) {
     return new Promise((resolve, reject) => {
       db.transaction((tx) => {
         tx.executeSql(
-          "DROP TABLE directions",
-          [],
+          `DELETE FROM directions WHERE routeId = ?`,
+          [id],
           resolve,
           (_, error) => reject(error)
+        );
+      });
+    });
+  }
+  static drop() {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql("DROP TABLE directions", [], resolve, (_, error) =>
+          reject(error)
         );
       });
     });

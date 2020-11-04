@@ -1,4 +1,4 @@
-import { GET_DIRECTIONS, SET_DIRECTION_BOOK } from "../types";
+import { GET_DIRECTIONS, SET_DIRECTION_BOOK,REMOVE_DIRECTION_BOOK } from "../types";
 const initialState = {
   directionIdString: "",
 };
@@ -15,6 +15,11 @@ export const directionReducer = (state = initialState, action) => {
         ...state,
         directionIdString: `${state.directionIdString},${action.id}`,
       };
+    case REMOVE_DIRECTION_BOOK:
+      return{
+        ...state,
+        directionIdString: action.directionsString,
+      }
   }
 
   return state;

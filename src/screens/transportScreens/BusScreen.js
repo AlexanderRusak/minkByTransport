@@ -14,6 +14,7 @@ export const BusScreen = () => {
       ? 0
       : (busRoutesCount[obj.routeNum] = 1);
   });
+
   return (
     <View style={styles.wrapper}>
       <FlatList
