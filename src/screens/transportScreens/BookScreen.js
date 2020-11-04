@@ -23,13 +23,19 @@ import { getBookedDirections } from "../../store/actions/directions";
 export const BookScreen = ({ navigation }) => {
   const [index, setIndex] = useState(0);
   const dispatch = useDispatch();
+/*   let test = useSelector((state) => state.direction.directionIdString); */
+  let IdDirection = useSelector((state) => state.direction.directionIdString);
   useEffect(() => {
     dispatch(getBookedDirections());
-  }, []);  
-  const IdDirection = useSelector(
-    (state) => state.direction.directionIdString
-  );
-/*   const IdDirection = ["289954", "290677"]; //////moka */
+  }, [IdDirection]);
+/*   console.log(test.split(","), "booked"); */
+  /* if (IdDirection) {      
+    IdDirection = IdDirection.split(",");
+    setIsFocused(navigation.isFocused());
+  } */
+/*   let IdDirection = useSelector((state) => state.direction.directionIdString); */
+  IdDirection = IdDirection.split(",");
+  /*   const IdDirection = ["289954", "290677"]; //////moka */
   const directionBookHandler = (stops, id) => {
     navigation.navigate("Station", [stops, id]);
   };
@@ -80,20 +86,26 @@ export const BookScreen = ({ navigation }) => {
       />
       {index === 0 ? (
         <View>
-          <FlatList
-            data={IdDirection.map((id) => DATA.find((item) => item.id === id))}
-            renderItem={(item) => (
-              <AppDirectionItem
-                from={item.item.routeName.split(" - ")[0]}
-                to={item.item.routeName.split(" - ")[1]}
-                type={item.item.transport}
-                busNumber={item.item.routeNum}
-                direction={directionBookHandler}
-                id={item.item.id}
-                stops={item.item.stops}
-              />
-            )}
-          />
+          {IdDirection ? (
+            <FlatList
+              data={IdDirection.map((id) =>
+                DATA.find((item) => item.id === id)
+              )}
+              renderItem={(item) => (
+                <AppDirectionItem
+                  from={item.item.routeName.split(" - ")[0]}
+                  to={item.item.routeName.split(" - ")[1]}
+                  type={item.item.transport}
+                  busNumber={item.item.routeNum}
+                  direction={directionBookHandler}
+                  id={item.item.id}
+                  stops={item.item.stops}
+                />
+              )}
+            />
+          ) : (
+            <Text>33333</Text>
+          )}
         </View>
       ) : (
         <View>
