@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDirectionItem } from "../components/AppDirectionItem";
-
+import { getDirectionsIdArray } from "../dispatchFunctions";
+import { getBookedDirections } from "../store/actions/directions";
 export const TransportDirectionScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+
+  dispatch(getBookedDirections());
+  const directionsId = useSelector(
+    (state) => state.direction.directionIdString
+  );
+  const directionsArray = directionsId.split(",");
+  const [directionsIdArray, setIsBooked] = useState(directionsArray);
+  useEffect(() => {
+    setIsBooked(directionsArray);
+  }, [dispatch]);
+  console.log(directionsIdArray, "array");
   const [directions] = navigation.state.params;
   const directionHandler = (stops, id) => {
     navigation.navigate("Station", [stops, id]);
@@ -11,7 +26,7 @@ export const TransportDirectionScreen = ({ navigation }) => {
     <View style={styles.wrapper}>
       <FlatList
         data={directions}
-        keyExtractor={direction => direction.id.toString()}
+        keyExtractor={(direction) => direction.id.toString()}
         renderItem={(direction) => (
           <AppDirectionItem
             from={direction.item.routeName.split(" - ")[0]}
@@ -21,6 +36,9 @@ export const TransportDirectionScreen = ({ navigation }) => {
             direction={directionHandler}
             id={direction.item.id}
             stops={direction.item.stops}
+            isBooked={directionsIdArray.find(
+              (book) => book === direction.item.id.toString()
+            )}
           />
         )}
       />

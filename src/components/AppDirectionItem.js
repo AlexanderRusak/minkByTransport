@@ -1,8 +1,8 @@
 import { FontAwesome } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
-import { getDirectionsIdArray } from "../dispatchFunctions";
+
 import {
   setBookedDirectionId,
   removeBookedDirections,
@@ -18,14 +18,11 @@ export const AppDirectionItem = ({
   direction,
   id,
   stops,
+  isBooked,
+  isBookedScreen,
 }) => {
   const dispatch = useDispatch();
-
-  const directionsIdArray = getDirectionsIdArray().split(",");
-
-  const isBooked = directionsIdArray.find((book) => book === id.toString());
-
-  const [book, setBook] = useState(!!isBooked);
+  const [book, setBook] = useState(isBookedScreen ? true : !!isBooked);
   const transportType = (typeString) => {
     switch (typeString) {
       case "bus":
@@ -40,11 +37,11 @@ export const AppDirectionItem = ({
   };
 
   const bookHandler = (id) => {
-    console.log(isBooked);
-    !isBooked
+    !isBookedScreen && !isBooked
       ? dispatch(setBookedDirectionId(id))
       : dispatch(removeBookedDirections(id));
-    setBook(!!isBooked);
+    isBookedScreen && dispatch(removeBookedDirections(id));
+    setBook(!book);
   };
   return (
     <TouchableOpacity onPress={() => direction(stops, id)}>

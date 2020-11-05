@@ -73,7 +73,7 @@ const topBarConfiguration = {
       marginTop: 15,
     },
   },
-  lazy: true,
+ 
 };
 
 const topTabNavigator = createMaterialTopTabNavigator(

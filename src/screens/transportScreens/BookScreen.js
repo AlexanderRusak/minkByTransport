@@ -23,30 +23,15 @@ import { getBookedDirections } from "../../store/actions/directions";
 export const BookScreen = ({ navigation }) => {
   const [index, setIndex] = useState(0);
   const dispatch = useDispatch();
-  /*   let test = useSelector((state) => state.direction.directionIdString); */
-
   useEffect(() => {
     dispatch(getBookedDirections());
   }, [IdDirection]);
-  /*   console.log(test.split(","), "booked"); */
-  /* if (IdDirection) {      
-    IdDirection = IdDirection.split(",");
-    setIsFocused(navigation.isFocused());
-  } */
-  /*   let IdDirection = useSelector((state) => state.direction.directionIdString); */
   let IdDirection = useSelector((state) => state.direction.directionIdString);
-  console.log(
-    IdDirection.trim()
-      .split(",")
-      .filter((id) => id !== ""),
-    "booked"
-  );
   IdDirection = IdDirection
     ? IdDirection.trim()
         .split(",")
         .filter((id) => id !== "")
     : null;
-  /*   const IdDirection = ["289954", "290677"]; //////moka */
   const directionBookHandler = (stops, id) => {
     navigation.navigate("Station", [stops, id]);
   };
@@ -111,11 +96,12 @@ export const BookScreen = ({ navigation }) => {
                   direction={directionBookHandler}
                   id={item.item.id}
                   stops={item.item.stops}
+                  isBookedScreen={!!IdDirection}
                 />
               )}
             />
           ) : (
-            <Text>33333</Text>
+            <View></View>
           )}
         </View>
       ) : (
