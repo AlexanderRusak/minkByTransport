@@ -17,7 +17,6 @@ export const TransportDirectionScreen = ({ navigation }) => {
   useEffect(() => {
     setIsBooked(directionsArray);
   }, [dispatch]);
-  console.log(directionsIdArray, "array");
   const [directions] = navigation.state.params;
   const directionHandler = (stops, id) => {
     navigation.navigate("Station", [stops, id]);

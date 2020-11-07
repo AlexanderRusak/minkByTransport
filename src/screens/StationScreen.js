@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 
 import { timesFirst } from "../data/timesData/timesFirst";
@@ -12,8 +12,22 @@ import { timesEight } from "../data/timesData/timesEight";
 import { timesNine } from "../data/timesData/timesNine";
 import { AppStationItem } from "../components/AppStationItem";
 import { STOPS } from "../data/stops";
+import { useDispatch, useSelector } from "react-redux";
+import { getBookedStations } from "../store/actions/directions";
 
 export const StationScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  useCallback(() => {
+    dispatch(getBookedStations());
+  });
+
+  const stopId = useSelector((state) => state.direction.stopsIdArray);
+  console.log(stopId);
+  const [stopArray, setStopArray] = useState(stopId);
+  useEffect(() => {
+    setStopArray(stopId);
+  }, [dispatch]);
+
   const [stopsCount, directionId] = navigation.state.params;
   const timeTableHandler = async (id, current, way) => {
     const times = [
@@ -43,7 +57,7 @@ export const StationScreen = ({ navigation }) => {
         ? filterdTimeTable[0].trips_by_days[1].arrives[current]
         : null,
     ];
-
+    console.log(id);
     await navigation.navigate("TimeTable", [id, current, way, timeTableArray]);
   };
   return (
@@ -59,6 +73,7 @@ export const StationScreen = ({ navigation }) => {
             stopName={STOPS.find((stop) => stop.id === item)}
             index={index}
             wayId={directionId}
+            isBooked={stopArray.find((stop) => stop === item)}
           />
         )}
       />

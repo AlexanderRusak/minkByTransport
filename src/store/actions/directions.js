@@ -1,8 +1,11 @@
-import { DB } from "../../db";
+import { DB, StationTable } from "../../db";
 import {
   GET_DIRECTIONS,
   REMOVE_DIRECTION_BOOK,
   SET_DIRECTION_BOOK,
+  GET_STATIONS,
+  REMOVE_STATION_BOOK,
+  SET_STATION_BOOK,
 } from "../types";
 
 export const getBookedDirections = () => {
@@ -27,7 +30,6 @@ export const setBookedDirectionId = (id) => async (dispatch) => {
 };
 
 export const removeBookedDirections = (id) => async (dispatch) => {
-  console.log("in");
   await DB.removeDirectionId(id);
   const directionsId = await DB.getDirections();
   const directionsIdArray = directionsId.map(
@@ -37,5 +39,33 @@ export const removeBookedDirections = (id) => async (dispatch) => {
   dispatch({
     type: REMOVE_DIRECTION_BOOK,
     directionsString,
+  });
+};
+
+export const getBookedStations = () => async (dispatch) => {
+  const data = await StationTable.getStations();
+  const directionIdArray = data.map((station) => Object.values(station)[1]);
+  const stopsIdArray = data.map((station) => Object.values(station)[2]);
+  dispatch({
+    type: GET_STATIONS,
+    stationsArray: [directionIdArray, stopsIdArray],
+  });
+};
+export const setBookedStation = (directionId, stopId) => async (dispatch) => {
+  await StationTable.setStationsData(directionId, stopId);
+  dispatch({
+    type: SET_STATION_BOOK,
+    directionsArray: [directionId, stopId],
+  });
+};
+export const removeBookStation = (stopId) => async (dispatch) => {
+  await StationTable.removeStation(stopId);
+  const data = await StationTable.getStations();
+  const directionIdArray = data.map((station) => Object.values(station)[1]);
+  const stopsIdArray = data.map((station) => Object.values(station)[2]);
+
+  dispatch({
+    type: REMOVE_STATION_BOOK,
+    stationsArray: [directionIdArray, stopsIdArray],
   });
 };

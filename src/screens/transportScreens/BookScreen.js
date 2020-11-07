@@ -18,26 +18,35 @@ import { timesSeven } from "../../data/timesData/timesSeven";
 import { timesEight } from "../../data/timesData/timesEight";
 import { timesNine } from "../../data/timesData/timesNine";
 import { useDispatch, useSelector } from "react-redux";
-import { getBookedDirections } from "../../store/actions/directions";
+import {
+  getBookedDirections,
+  getBookedStations,
+} from "../../store/actions/directions";
 
 export const BookScreen = ({ navigation }) => {
   const [index, setIndex] = useState(0);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getBookedDirections());
-  }, [IdDirection]);
+    dispatch(getBookedStations());
+  }, [IdDirection, stopsId]);
   let IdDirection = useSelector((state) => state.direction.directionIdString);
   IdDirection = IdDirection
     ? IdDirection.trim()
         .split(",")
         .filter((id) => id !== "")
     : null;
+
+  let directionStationId = useSelector(
+    (state) => state.direction.directionIdArray
+  );
+  let stopsId = useSelector((state) => state.direction.stopsIdArray);
+ console.log(directionStationId, stopsId, "lll");
+
   const directionBookHandler = (stops, id) => {
     navigation.navigate("Station", [stops, id]);
   };
 
-  const stopsId = ["15709", "15856"]; //for stops
-  const directionStationId = ["270432", "283079"];
   const timeTableHandler = async (id, current, way) => {
     const times = [
       timesFirst,
@@ -106,28 +115,32 @@ export const BookScreen = ({ navigation }) => {
         </View>
       ) : (
         <View>
-          {/* stopsId=["15709","15856"], directionStationId=["270432","283079"] */}
-          <FlatList
-            data={stopsId}
-            keyExtractor={(index) => index.toString()}
-            renderItem={({ item, index }) => (
-              <AppStationItem
-                timeTableHandler={() => {
-                  const currentStopIndex = DATA.find(
-                    (arr) => arr.id === directionStationId[index]
-                  ).stops.findIndex((stopIndex) => stopIndex === item);
-                  console.log(currentStopIndex, "ddd");
+          {stopsId && directionStationId ? (
+            <FlatList
+              data={stopsId}
+              keyExtractor={(index) => index.toString()}
+              renderItem={({ item, index }) => (
+                <AppStationItem
+                  timeTableHandler={() => {
+                    const currentStopIndex = DATA.find(
+                      (arr) => arr.id === directionStationId[index]
+                    ).stops.findIndex((stopIndex) => stopIndex === item);
+                    console.log(currentStopIndex, "ddd");
 
-                  timeTableHandler(
-                    item,
-                    currentStopIndex,
-                    directionStationId[index]
-                  );
-                }}
-                stopName={STOPS.find((stop) => stop.id === item)}
-              />
-            )}
-          />
+                    timeTableHandler(
+                      item,
+                      currentStopIndex,
+                      directionStationId[index]
+                    );
+                  }}
+                  stopName={STOPS.find((stop) => stop.id === item)}
+                  isBookedScreen={!!stopsId}
+                />
+              )}
+            />
+          ) : (
+            <View></View>
+          )}
         </View>
       )}
     </View>
