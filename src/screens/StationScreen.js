@@ -22,7 +22,6 @@ export const StationScreen = ({ navigation }) => {
   });
 
   const stopId = useSelector((state) => state.direction.stopsIdArray);
-  console.log(stopId);
   const [stopArray, setStopArray] = useState(stopId);
   useEffect(() => {
     setStopArray(stopId);
@@ -57,7 +56,6 @@ export const StationScreen = ({ navigation }) => {
         ? filterdTimeTable[0].trips_by_days[1].arrives[current]
         : null,
     ];
-    console.log(id);
     await navigation.navigate("TimeTable", [id, current, way, timeTableArray]);
   };
   return (

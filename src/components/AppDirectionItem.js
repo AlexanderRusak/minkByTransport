@@ -29,7 +29,7 @@ export const AppDirectionItem = ({
         return "A";
       case "trol":
         return "T";
-      case "tral":
+      case "tram":
         return "Tp";
       default:
         return "";

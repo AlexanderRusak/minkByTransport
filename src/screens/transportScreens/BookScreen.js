@@ -41,7 +41,6 @@ export const BookScreen = ({ navigation }) => {
     (state) => state.direction.directionIdArray
   );
   let stopsId = useSelector((state) => state.direction.stopsIdArray);
- console.log(directionStationId, stopsId, "lll");
 
   const directionBookHandler = (stops, id) => {
     navigation.navigate("Station", [stops, id]);
@@ -59,7 +58,6 @@ export const BookScreen = ({ navigation }) => {
       timesEight,
       timesNine,
     ];
-    console.log(way, id, current);
     let getTimeTable = await times.map((timeArr) =>
       timeArr.find((timeObj) => timeObj.way_id === +way)
     );
@@ -90,7 +88,7 @@ export const BookScreen = ({ navigation }) => {
         containerStyle={{ borderRadius: 5 }}
       />
       {index === 0 ? (
-        <View>
+        <View style={styles.flatWrapper}>
           {IdDirection ? (
             <FlatList
               data={IdDirection.map((id) =>
@@ -114,7 +112,7 @@ export const BookScreen = ({ navigation }) => {
           )}
         </View>
       ) : (
-        <View>
+        <View style={styles.flatWrapper}>
           {stopsId && directionStationId ? (
             <FlatList
               data={stopsId}
@@ -125,7 +123,6 @@ export const BookScreen = ({ navigation }) => {
                     const currentStopIndex = DATA.find(
                       (arr) => arr.id === directionStationId[index]
                     ).stops.findIndex((stopIndex) => stopIndex === item);
-                    console.log(currentStopIndex, "ddd");
 
                     timeTableHandler(
                       item,
@@ -160,4 +157,7 @@ const styles = StyleSheet.create({
   wrapper: {
     marginHorizontal: 5,
   },
+  flatWrapper:{
+    height:"90%"
+  }
 });

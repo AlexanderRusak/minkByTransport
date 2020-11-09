@@ -13,20 +13,16 @@ export const AppStationItem = ({
   stopName,
   timeTableHandler,
   wayId,
-  index,
   isBooked,
   isBookedScreen,
 }) => {
   const dispatch = useDispatch();
-  console.log(isBooked, isBookedScreen);
   const [booked, setBooked] = useState(isBookedScreen ? true : !!isBooked);
-  console.log(booked);
   return (
     <TouchableOpacity style={styles.wrapper} onPress={timeTableHandler}>
       <Text style={styles.text}>{stopName.name}</Text>
       <TouchableOpacity
         onPress={() => {
-          console.log(!!isBookedScreen, !isBooked);
           const stopId = Object.values(stopName)[0];
           !isBookedScreen && !isBooked
             ? dispatch(setBookedStation(wayId, stopId))

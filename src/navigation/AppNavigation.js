@@ -17,6 +17,7 @@ import { TrolleybusScreen } from "../screens/transportScreens/TrolleyBusScreen";
 import { TrainScreen } from "../screens/transportScreens/TrainScreen";
 import { SettingsScreen } from "../screens/SettingsScreen";
 import { BookScreen } from "../screens/transportScreens/BookScreen";
+import { AboutScreen } from "../screens/settingScreens/About";
 
 export const iconColor = (isFocused) => {
   if (Platform.OS === "ios" && isFocused) {
@@ -73,7 +74,6 @@ const topBarConfiguration = {
       marginTop: 15,
     },
   },
- 
 };
 
 const topTabNavigator = createMaterialTopTabNavigator(
@@ -110,19 +110,37 @@ const topTabDirectionNavigator = createStackNavigator({
     navigationOptions: ({ navigation }) => headerOptions(navigation),
   },
 });
+const AboutComponentScreen = createStackNavigator({
+  About: {
+    screen: AboutScreen,
+  },
+});
 const settingsComponent = createStackNavigator({
   Settings: {
     screen: SettingsScreen,
     navigationOptions: {
       headerTitle: "Настройки",
-      headerTitleStyle:{ 
+      headerTitleStyle: {
         fontFamily: "open-regular",
-        fontSize:25,
-        color:THEME.MAIN_COLOR,
-      }
+        fontSize: THEME.FONT_SIZE_DEFAULT,
+        color: THEME.MAIN_COLOR,
+      },
+    },
+  },
+  About: {
+    screen: AboutComponentScreen,
+    navigationOptions: {
+      headerTitle: "Информация",
+      headerTitleStyle: {
+        fontFamily: "open-regular",
+        fontSize: THEME.FONT_SIZE_DEFAULT,
+        color: THEME.MAIN_COLOR,
+      },
+      headerTintColor:THEME.MAIN_COLOR
     },
   },
 });
+
 const bottonTabNavigation = createBottomTabNavigator(
   {
     Main: {
@@ -139,7 +157,11 @@ const bottonTabNavigation = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: "Настройки",
         tabBarIcon: ({ focused }) => (
-          <MaterialIcons name="settings" size={25} color={iconColor(focused)} />
+          <MaterialIcons
+            name="settings"
+            size={THEME.FONT_SIZE_DEFAULT}
+            color={iconColor(focused)}
+          />
         ),
       },
     },

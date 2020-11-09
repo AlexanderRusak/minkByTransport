@@ -8,7 +8,6 @@ export const AppTableItem = ({ table }) => {
     ...new Set(Array.from(table).map((item) => Math.trunc(item / 60))),
   ];
   const minutesArray = Array.from(table).map((minutes) => minutes / 60);
-
   const renderTable = filterHoursArray.map((hour) => ({
     hour: hour,
     minutes: minutesArray.filter((minute) => Math.trunc(minute) === hour),
@@ -20,7 +19,7 @@ export const AppTableItem = ({ table }) => {
   return (
     <FlatList
       data={renderTable}
-      renderItem={({ item, index }) => (
+      renderItem={({ item }) => (
         <View style={styles.wrapper}>
           <View style={styles.hours}>
             <Text style={styles.hour}>
@@ -53,7 +52,7 @@ export const AppTableItem = ({ table }) => {
           </View>
         </View>
       )}
-      keyExtractor={(item) => item.hour.toString()}
+      keyExtractor={(item, index) => `${item.hour + Math.random(index)}`}
     />
   );
 };
