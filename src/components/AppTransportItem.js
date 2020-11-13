@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { withNavigation } from "react-navigation";
-import { THEME } from "../theme";
 
 class AppTransportItem extends React.Component {
   directionHandler = () => {
@@ -33,6 +32,7 @@ const styles = StyleSheet.create({
     height: 70,
     justifyContent: "center",
     alignItems: "center",
+
   },
   item: {
     backgroundColor: "#ccc",

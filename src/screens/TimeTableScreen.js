@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { ButtonGroup } from "react-native-elements";
 import { AppTableItem } from "../components/AppTableItem";
-import { THEME } from "../theme";
+import { GET_THEME } from "../theme";
 
 export const TimeTableScreen = ({ navigation }) => {
   const buttons = ["Будние дни недели"];
@@ -34,7 +34,7 @@ export const TimeTableScreen = ({ navigation }) => {
           onPress={(selectedIndex) => changeTableButtonHandler(selectedIndex)}
           buttons={buttons}
           selectedIndex={index}
-          selectedButtonStyle={{ backgroundColor: THEME.MAIN_COLOR }}
+          selectedButtonStyle={{ backgroundColor: GET_THEME().MAIN_COLOR }}
         />
       </View>
       <View  style={styles.wrapper}>

@@ -7,7 +7,7 @@ import {
   removeBookStation,
   setBookedStation,
 } from "../store/actions/directions";
-import { THEME } from "../theme";
+import { GET_THEME } from "../theme";
 
 export const AppStationItem = ({
   stopName,
@@ -33,8 +33,8 @@ export const AppStationItem = ({
       >
         <FontAwesome
           name={booked ? "star" : "star-o"}
-          size={THEME.ICON_TOP_TAB_SIZE}
-          color={THEME.MAIN_COLOR}
+          size={GET_THEME().ICON_TOP_TAB_SIZE}
+          color={GET_THEME().MAIN_COLOR}
         />
       </TouchableOpacity>
     </TouchableOpacity>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 10,
     borderBottomWidth: 1,
-    borderBottomColor: THEME.INACTIVE_TINT_COLOR,
+    borderBottomColor: GET_THEME().INACTIVE_TINT_COLOR,
   },
   text: {
     fontFamily: "open-regular",

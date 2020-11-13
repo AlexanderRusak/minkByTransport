@@ -1,11 +1,18 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import React from "react";
-import { View, Text, StyleSheet, Linking } from "react-native";
+import { View, Text, StyleSheet, Linking, FlatList,Dimensions } from "react-native";
 import { Button } from "react-native-elements";
-import { GITHUB_URL, LINKEDIN_URL, RABOTABY_URL } from "../../Links";
-import { THEME } from "../../theme";
+import {
+  GITHUB_URL,
+  LINKEDIN_URL,
+  RABOTABY_URL,
+  STACK_LISTS,
+} from "../../Links";
+import { GET_THEME } from "../../theme";
 
 export const AboutScreen = () => {
+
+
   const mailHandler = () => {
     const email = "rusak.alexander2017@yandex.ru";
     const subject = "Отзыв о приложении";
@@ -26,7 +33,7 @@ export const AboutScreen = () => {
     <View style={styles.wrapper}>
       <View style={styles.innerWrapper}>
         <View>
-          <Text style={styles.text}>Разработчик:</Text>
+          <Text style={styles.textHeader}>Разработчик:</Text>
           <Text style={styles.text}>Александр Русак</Text>
         </View>
         <Button
@@ -39,7 +46,7 @@ export const AboutScreen = () => {
       <View style={styles.underLine}></View>
       <View style={styles.innerWrapper}>
         <Button
-          title="gitHub"
+          title="GitHub"
           titleStyle={styles.titleStyle}
           onPress={() => {
             urlHandler("git");
@@ -48,13 +55,13 @@ export const AboutScreen = () => {
           icon={
             <FontAwesome5
               name="github"
-              size={THEME.ICON_TOP_TAB_SIZE}
+              size={GET_THEME().ICON_TOP_TAB_SIZE}
               style={styles.iconStyle}
             />
           }
         />
         <Button
-          title="linkedIn"
+          title="LinkedIn"
           titleStyle={styles.titleStyle}
           onPress={() => {
             urlHandler("linkedin");
@@ -63,13 +70,13 @@ export const AboutScreen = () => {
           icon={
             <FontAwesome5
               name="linkedin"
-              size={THEME.ICON_TOP_TAB_SIZE}
+              size={GET_THEME().ICON_TOP_TAB_SIZE}
               style={styles.iconStyle}
             />
           }
         />
         <Button
-          title="rabota.by"
+          title="Rabota.by"
           titleStyle={styles.titleStyle}
           onPress={() => {
             urlHandler("rabota");
@@ -78,13 +85,21 @@ export const AboutScreen = () => {
           icon={
             <FontAwesome5
               name="briefcase"
-              size={THEME.ICON_TOP_TAB_SIZE}
+              size={GET_THEME().ICON_TOP_TAB_SIZE}
               style={styles.iconStyle}
             />
           }
         />
       </View>
       <View style={styles.underLine}></View>
+      <View style={styles.innerWrapperStack}>
+        <Text style={styles.textHeader}>Исрользуемые технологии:</Text>
+        <FlatList
+          data={STACK_LISTS}
+          renderItem={(item) => <Text style={styles.text}>{item.item}</Text>}
+          keyExtractor={(index) => index.toString()}
+        />
+      </View>
     </View>
   );
 };
@@ -99,24 +114,35 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    height: "25%",
+    height:Dimensions.get("screen").height*0.1,
+    marginBottom: 10,
+  },
+  innerWrapperStack:{
+    marginTop: 10,
+    justifyContent: "space-around",
+    alignItems: "flex-start",
+    height:Dimensions.get("screen").height*0.4,
     marginBottom: 10,
   },
   text: {
     fontFamily: "open-regular",
-    fontSize: THEME.FONT_SIZE_DEFAULT,
+    fontSize: GET_THEME().FONT_SIZE_DEFAULT,
+  },
+  textHeader:{
+    fontFamily: "open-bold",
+    fontSize: GET_THEME().FONT_SIZE_DEFAULT,
   },
   button: {
     height: "100%",
-    backgroundColor: THEME.MAIN_COLOR,
+    backgroundColor: GET_THEME().MAIN_COLOR,
   },
   underLine: {
     width: "100%",
     height: 2,
-    backgroundColor: THEME.INACTIVE_TINT_COLOR,
+    backgroundColor: GET_THEME().INACTIVE_TINT_COLOR,
   },
   iconStyle: {
-    color: THEME.MAIN_COLOR,
+    color: GET_THEME().MAIN_COLOR,
     backgroundColor: "transparent",
     flexDirection: "column",
   },

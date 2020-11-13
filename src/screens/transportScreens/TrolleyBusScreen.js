@@ -1,8 +1,7 @@
 import React from "react";
-import { View, FlatList, StyleSheet } from "react-native";
-
+import { View, FlatList, StyleSheet,Dimensions } from "react-native";
 import { iconColor } from "../../navigation/AppNavigation";
-import { THEME } from "../../theme";
+import { GET_THEME } from "../../theme";
 import AppTransportItem from "../../components/AppTransportItem";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { DATA } from "../../data/routes";
@@ -15,12 +14,15 @@ export const TrolleybusScreen = () => {
       ? 0
       : (trolRoutesCount[obj.routeNum] = 1);
   });
+  const getColumns = () => {
+    return Math.trunc(Dimensions.get("window").width / 70).toString();
+  };
   return (
     <View style={styles.wrapper}>
       <FlatList
         style={styles.renderItems}
         data={trolRoutesCount}
-        numColumns={"5"}
+        numColumns={getColumns()}
         columnWrapperStyle={{ flex: 1, justifyContent: "flex-start" }}
         renderItem={(item) => (
           <AppTransportItem
@@ -42,7 +44,7 @@ TrolleybusScreen.navigationOptions = {
     <FontAwesome5
       color={iconColor(focused)}
       name="bus-alt"
-      size={THEME.ICON_TOP_TAB_SIZE}
+      size={GET_THEME().ICON_TOP_TAB_SIZE}
     />
   ),
 };
@@ -50,5 +52,6 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     marginHorizontal: 5,
+    justifyContent: "center",
   },
 });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import { iconColor } from "../../navigation/AppNavigation";
-import { THEME } from "../../theme";
+import { GET_THEME } from "../../theme";
 import { FontAwesome } from "@expo/vector-icons";
 import { ButtonGroup } from "react-native-elements";
 import { DATA } from "../../data/routes";
@@ -84,7 +84,7 @@ export const BookScreen = ({ navigation }) => {
         buttons={["Маршруты", "Остановки"]}
         selectedIndex={index}
         onPress={(selectedIndex) => setIndex(selectedIndex)}
-        selectedButtonStyle={{ backgroundColor: THEME.MAIN_COLOR }}
+        selectedButtonStyle={{ backgroundColor: GET_THEME().MAIN_COLOR }}
         containerStyle={{ borderRadius: 5 }}
       />
       {index === 0 ? (
@@ -149,7 +149,7 @@ BookScreen.navigationOptions = {
     <FontAwesome
       color={iconColor(focused)}
       name="star-o"
-      size={THEME.ICON_TOP_TAB_SIZE}
+      size={GET_THEME().ICON_TOP_TAB_SIZE}
     />
   ),
 };

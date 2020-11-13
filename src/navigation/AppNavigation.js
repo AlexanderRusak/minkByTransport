@@ -1,5 +1,4 @@
 import React from "react";
-import { Button, Platform } from "react-native";
 
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
@@ -11,38 +10,30 @@ import {
   createMaterialTopTabNavigator,
 } from "react-navigation-tabs";
 import { FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import { THEME } from "../theme";
+import { GET_THEME } from "../theme";
 import { BusScreen } from "../screens/transportScreens/BusScreen";
 import { TrolleybusScreen } from "../screens/transportScreens/TrolleyBusScreen";
 import { TrainScreen } from "../screens/transportScreens/TrainScreen";
 import { SettingsScreen } from "../screens/SettingsScreen";
 import { BookScreen } from "../screens/transportScreens/BookScreen";
 import { AboutScreen } from "../screens/settingScreens/About";
-
 export const iconColor = (isFocused) => {
-  if (Platform.OS === "ios" && isFocused) {
-    return THEME.MAIN_COLOR;
+  if (isFocused) {
+    return GET_THEME().MAIN_COLOR;
   }
-  if (Platform.OS === "ios" && !isFocused) {
-    return THEME.INACTIVE_TINT_COLOR;
-  }
-  if (Platform.OS === "android" && isFocused) {
-    return THEME.MAIN_COLOR;
-  }
-  if (Platform.OS === "android" && !isFocused) {
-    return THEME.INACTIVE_TINT_COLOR;
+  if (!isFocused) {
+    return GET_THEME().INACTIVE_TINT_COLOR;
   }
 };
 const headerOptions = (navigation) => ({
-  headerTintColor: Platform.OS === "ios" ? THEME.MAIN_COLOR : THEME.DEFAULT,
+  headerTintColor: GET_THEME().MAIN_COLOR,
   headerTitleStyle: {
     fontFamily: "open-regular",
     fontSize: 25,
   },
 
   headerStyle: {
-    backgroundColor:
-      Platform.OS === "android" ? THEME.MAIN_COLOR : THEME.DEFAULT,
+    backgroundColor: GET_THEME().DEFAULT,
   },
   headerBackTitle: "Назад",
   headerRight: () => (
@@ -51,8 +42,8 @@ const headerOptions = (navigation) => ({
       onPress={() => {
         navigation.navigate("TopBar", {});
       }}
-      size={THEME.ICON_TOP_TAB_SIZE}
-      color={Platform.OS === "ios" ? THEME.MAIN_COLOR : THEME.DEFAULT}
+      size={GET_THEME().ICON_TOP_TAB_SIZE}
+      color={GET_THEME().MAIN_COLOR}
       style={{ paddingRight: 10 }}
     />
   ),
@@ -60,7 +51,7 @@ const headerOptions = (navigation) => ({
 const topBarConfiguration = {
   tabBarOptions: {
     indicatorStyle: {
-      backgroundColor: Platform.OS === "ios" ? THEME.MAIN_COLOR : THEME.DEFAULT,
+      backgroundColor: GET_THEME().MAIN_COLOR,
     },
     showIcon: true,
     showLabel: false,
@@ -69,8 +60,7 @@ const topBarConfiguration = {
       height: "100%",
     },
     style: {
-      backgroundColor:
-        Platform.OS === "android" ? THEME.MAIN_COLOR : THEME.DEFAULT,
+      backgroundColor: GET_THEME().DEFAULT,
       marginTop: 15,
     },
   },
@@ -92,8 +82,7 @@ const topTabDirectionNavigator = createStackNavigator({
     navigationOptions: {
       headerShown: false,
       style: {
-        backgroundColor:
-          Platform.OS === "android" ? THEME.MAIN_COLOR : THEME.DEFAULT,
+        backgroundColor: GET_THEME().DEFAULT,
       },
     },
   },
@@ -119,11 +108,11 @@ const settingsComponent = createStackNavigator({
   Settings: {
     screen: SettingsScreen,
     navigationOptions: {
-      headerTitle: "Настройки",
+      headerTitle: "Информация",
       headerTitleStyle: {
         fontFamily: "open-regular",
-        fontSize: THEME.FONT_SIZE_DEFAULT,
-        color: THEME.MAIN_COLOR,
+        fontSize: GET_THEME().FONT_SIZE_DEFAULT,
+        color: GET_THEME().MAIN_COLOR,
       },
     },
   },
@@ -133,10 +122,11 @@ const settingsComponent = createStackNavigator({
       headerTitle: "Информация",
       headerTitleStyle: {
         fontFamily: "open-regular",
-        fontSize: THEME.FONT_SIZE_DEFAULT,
-        color: THEME.MAIN_COLOR,
+        fontSize: GET_THEME().FONT_SIZE_DEFAULT,
+        color: GET_THEME().MAIN_COLOR,
       },
-      headerTintColor:THEME.MAIN_COLOR
+      style: {},
+      headerTintColor: GET_THEME().MAIN_COLOR,
     },
   },
 });
@@ -155,11 +145,11 @@ const bottonTabNavigation = createBottomTabNavigator(
     Setting: {
       screen: settingsComponent,
       navigationOptions: {
-        tabBarLabel: "Настройки",
+        tabBarLabel: "Информация",
         tabBarIcon: ({ focused }) => (
           <MaterialIcons
             name="settings"
-            size={THEME.FONT_SIZE_DEFAULT}
+            size={GET_THEME().FONT_SIZE_DEFAULT}
             color={iconColor(focused)}
           />
         ),
@@ -170,8 +160,9 @@ const bottonTabNavigation = createBottomTabNavigator(
     tabBarOptions: {
       style: {
         alignItems: "flex-start",
+        backgroundColor: GET_THEME().DEFAULT,
       },
-      activeTintColor: THEME.MAIN_COLOR,
+      activeTintColor: GET_THEME().MAIN_COLOR,
       inactiveTintColor: "#ccc",
     },
   }

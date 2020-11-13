@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, FlatList, View, StyleSheet } from "react-native";
 
-import { THEME } from "../theme";
+import { GET_THEME } from "../theme";
 
 export const AppTableItem = ({ table }) => {
   const filterHoursArray = [
@@ -65,15 +65,15 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     alignItems: "center",
     borderBottomWidth: 1,
-    borderBottomColor: THEME.INACTIVE_TINT_COLOR,
+    borderBottomColor: GET_THEME().INACTIVE_TINT_COLOR,
   },
   hours: {
-    width: 20,
+    width: 30,
   },
   hour: {
     fontFamily: "open-bold",
     fontSize: 22,
-    color: THEME.MAIN_COLOR,
+    color: GET_THEME().MAIN_COLOR,
   },
   minutes: {
     marginLeft: 10,
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   nextTime: {
     fontSize: 20,
-    color: THEME.MAIN_COLOR,
+    color: GET_THEME().MAIN_COLOR,
     fontFamily: "open-bold",
     paddingLeft: 5,
   },

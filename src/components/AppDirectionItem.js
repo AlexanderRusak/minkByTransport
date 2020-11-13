@@ -1,14 +1,13 @@
 import { FontAwesome } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import {
   setBookedDirectionId,
   removeBookedDirections,
 } from "../store/actions/directions";
 
-import { THEME } from "../theme";
+import { GET_THEME } from "../theme";
 
 export const AppDirectionItem = ({
   from,
@@ -23,6 +22,7 @@ export const AppDirectionItem = ({
 }) => {
   const dispatch = useDispatch();
   const [book, setBook] = useState(isBookedScreen ? true : !!isBooked);
+
   const transportType = (typeString) => {
     switch (typeString) {
       case "bus":
@@ -63,8 +63,8 @@ export const AppDirectionItem = ({
           <FontAwesome
             style={styles.booked}
             name={!book ? "star-o" : "star"}
-            size={THEME.ICON_TOP_TAB_SIZE}
-            color={THEME.MAIN_COLOR}
+            size={GET_THEME().ICON_TOP_TAB_SIZE}
+            color={GET_THEME().MAIN_COLOR}
             style={{
               alignSelf: "center",
             }}
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     height: 80,
     flexDirection: "row",
     borderBottomWidth: 1,
-    borderBottomColor: THEME.INACTIVE_TINT_COLOR,
+    borderBottomColor: GET_THEME().INACTIVE_TINT_COLOR,
   },
   sticker: {
     flexDirection: "column",
